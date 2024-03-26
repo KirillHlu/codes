@@ -1,0 +1,21 @@
+class Plus():
+    def __init__(self, num1, num2):
+        self.num1 = num1
+        self.num2 = num2
+    def print1(self):
+        print(f'{self.num1} + {self.num2} = {int(self.num1)+int(self.num2)}')
+
+class Minus():
+    def __init__(self, num1, num2):
+        self.num1 = num1
+        self.num2 = num2
+    def print2(self):
+        print(f'{self.num1} - {self.num2} = {int(self.num1)-int(self.num2)}')
+
+
+class Nums(Plus, Minus):
+    pass
+
+action = Nums(2,3)
+action.print1()
+action.print2()
