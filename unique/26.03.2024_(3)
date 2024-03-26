@@ -1,0 +1,33 @@
+class Dog():
+    def __init__(self, color, age, breed, name, gender):
+        self.__gender = gender
+        self.__name = name
+        self.__color = color
+        self.__age = age
+        self.__breed = breed
+
+
+    def print_info(self):
+        print(f'\n\nName: {self.__name}\nBreed: {self.__breed}\nGender: {self.__gender}\nColor: {self.__color}\nAge: {self.__age}')
+
+    def get_name(self):
+        return self.__name
+
+    def get_color(self):
+        return self.__color
+
+    def set_age(self, age):
+        if 0 < age < 30:
+            self.__age = age
+        else:
+            print("\n\nUnacceptable age!")
+
+
+dog1 = Dog('None', "none",'none', "none", 'none')
+dog1._Dog__name = input('Name of dog: ')
+dog1._Dog__breed = input('Breed: ')
+dog1._Dog__gender = input('Gender: ')
+dog1._Dog__color = input('Color: ')
+
+dog1.set_age(int(input('Age: ')))
+dog1.print_info()
