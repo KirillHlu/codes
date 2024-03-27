@@ -1,0 +1,77 @@
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox
+def task1():
+    root1 = Tk()
+    root1.title('Task 1')
+
+    def up():
+        messagebox.showinfo(title="Output", message="Up")
+
+    def down():
+        messagebox.showinfo(title="Output", message="Down")
+
+    def right():
+        messagebox.showinfo(title="Output", message="Right")
+
+    def left():
+        messagebox.showinfo(title="Output", message="Left")
+
+
+    btn1 = ttk.Button(root1, text='⬆️', width=10, padding=10, command=up)
+    btn2 = ttk.Button(root1, text='⬇️', width=10, padding=10, command=down)
+    btn3 = ttk.Button(root1, text='➡️', width=10, padding=10, command=right)
+    btn4 = ttk.Button(root1, text='⬅', width=10, padding=10, command=left)
+
+    btn1.place(x=10, y=10)
+    btn2.place(x=10, y=60)
+    btn3.place(x=10,y=110)
+    btn4.place(x=10,y=160)
+
+
+    root1.mainloop()
+
+def task3():
+    root_third = Tk()
+    root_third.title('Task 3')
+
+    canvas = Canvas(root_third)
+    canvas.pack()
+
+    shape = canvas.create_oval(0, 0, 100, 100, fill='#00BFFF')
+
+    def action(event):
+        canvas.coords(shape, event.x - 50, event.y - 50, event.x + 50, event.y + 50)
+
+    canvas.bind('<1>', action)
+
+    root_third.mainloop()
+
+def task2():
+    root2 = Tk()
+    root2.title('Calculate')
+
+
+    def calculate():
+        numbers = enter.get()
+        numbers = numbers.replace('+', ' ')
+        numbers = numbers.split()
+        summ = []
+        for i in numbers:
+            i = int(i)
+            summ.append(int(i))
+        text21 = Label(root2, text=f' = {sum(summ)}')
+        text21.place(x=130, y=20)
+        numbers = []
+
+
+    message = StringVar()
+
+    enter = ttk.Entry(root2, textvariable=message)
+    btn1 = ttk.Button(root2, text='=', command=calculate)
+
+
+    enter.place(x=10, y=20)
+    btn1.place(x=10,y=50)
+
+    root2.mainloop()
