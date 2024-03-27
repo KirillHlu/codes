@@ -1,0 +1,11 @@
+from model import *
+class Main_root(Tk):
+    def __init__(self):
+        super().__init__()
+        self.title('Main root')
+        self.btn1 = ttk.Button(text='Task 1', width=10, padding=10, command=task1)
+        self.btn1.pack()
+        self.btn2 = ttk.Button(text='Task 2', width=10, padding=10, command=task2)
+        self.btn2.pack()
+        self.btn3 = ttk.Button(text='Task 3', width=10, padding=10, command=task3)
+        self.btn3.pack()
