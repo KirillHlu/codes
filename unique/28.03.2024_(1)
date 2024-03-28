@@ -1,0 +1,18 @@
+class Animal():
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def info(self):
+        print(f'Name: {self.name}, Age: {self.age}')
+
+class Cat(Animal):
+    def say(self):
+        print(f'{self.name}: meow')
+
+class Dog(Animal):
+    def say(self):
+        print(f'{self.name}: GAV GAV')
+
+cat = Dog('Bobby', 12)
+cat.info()
+cat.say()
