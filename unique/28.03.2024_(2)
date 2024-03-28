@@ -38,8 +38,3 @@ class Dog(Animal):
     def info(self):
         print(f'Name: {self.name}, Age: {self.age}')
 
-dog = Cat('none', 'none')
-dog._Dog__name = 'bobby'
-dog.set_age(100)
-dog.say()
-dog.info()
