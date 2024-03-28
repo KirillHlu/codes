@@ -1,0 +1,40 @@
+class Computer():
+    def __init__(self, type):
+        self.type = type
+        self.computer_properties = {}
+    def set_properties(self, color, processor):
+        self.computer_properties = {'Color': color, 'processor': processor}
+
+    def get_properties(self):
+        return self.computer_properties
+    def get_type(self):
+
+        return self.type
+
+    def get_processor(self):
+
+        return self.computer_properties['processor']
+
+    def get_color(self):
+        return  self.computer_properties['Color']
+
+class Huawei(Computer):
+    def __init__(self, type):
+        self.type = type
+        self.computer_properties = {}
+
+computer1 = Computer('MSI')
+computer1.set_properties('white', 'AMD FX-4300 BOX')
+
+computer2 = Huawei('HUAWEI')
+computer2.set_properties('white', 'Intel Core i5')
+
+computers = [computer1, computer2]
+
+
+white_cars = 0
+for computer in computers:
+    if computer.get_properties()['Color'] == 'white':
+        white_cars = white_cars+1
+    print(f'{computer.get_type()}: {computer.get_color()}, {computer.get_processor()}.')
+print('White:',white_cars)
