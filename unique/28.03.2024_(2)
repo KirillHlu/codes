@@ -28,13 +28,18 @@ class Cat(Animal):
 class Dog(Animal):
     def set_age(self, age):
         if 0 < age < 30:
-            self.__age = age
+            self.age = age
         else:
-            pass
+            self.age = 'None'
 
     def say(self):
         print(f'{self.name}: GAV GAV')
 
     def info(self):
         print(f'Name: {self.name}, Age: {self.age}')
+
+dog = Dog('Bobby', 'None')
+dog.set_age(100)
+dog.say()
+dog.info()
 
