@@ -1,0 +1,181 @@
+from tkinter import *
+from tkinter import Tk, Canvas, Button, Entry
+from tkinter.ttk import Combobox
+from tkinter.colorchooser import askcolor
+
+
+class App3(Tk):
+
+    def __init__(self):
+
+        super().__init__()
+        self.resizable(width=False, height=False)
+        self.geometry('600x350')
+        self.title("Quare")
+        self.color = None
+        self.txt2 = Label(self, text='Width: ')
+        self.txt3 = Label(self, text='Height: ')
+        self.width_entry = Entry(self)
+        self.height_entry = Entry(self)
+        self.create_btn = Button(self, text="Create a circle", command=self.create_shape)
+        self.color_btn = Button(self, text="Choose color", command=self.set_color)
+        self.canvas = Canvas(self, bg="white", width=250, height=250)
+
+        self.txt2.place(x=20, y=30)
+        self.width_entry.place(x=20, y=60)
+        self.txt3.place(x=20, y=110)
+        self.height_entry.place(x=20, y=140)
+        self.color_btn.place(x=35, y=240)
+        self.create_btn.place(x=30, y=280)
+        self.canvas.place(x=300, y=40)
+
+    def set_color(self):
+        self.color = askcolor()[1]
+        self.txt4 = Label(self, text='Color: ')
+        self.txt4.place(x=20, y=170)
+        self.color_combobox = Combobox(self, values=['red', 'green', 'blue', 'orange', 'yellow', 'violet'])
+        self.color_combobox.place(x=20, y=195)
+        self.color_combobox.insert(0, self.color)
+
+    def create_shape(self):
+        try:
+            self.canvas.delete("all")  # Удаление предыдущей фигуры
+            width = int(self.width_entry.get())
+            height = int(self.height_entry.get())
+            self.color = self.color_combobox.get()
+            if self.color and width > 0 and height > 0:
+                self.canvas.create_rectangle(10, 10, 10 + width, 10 + height, fill=self.color)
+        except ValueError:
+            self.error = Label(text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+        except TclError:
+            self.error = Label(text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+
+
+def rgb3():
+    app = App3()
+    app.mainloop()
+
+class App1(Tk):
+
+    def __init__(self):
+
+        super().__init__()
+        self.resizable(width=False, height=False)
+        self.geometry('600x350')
+        self.title("Circle")
+        self.color = None
+        self.txt2 = Label(self, text='Width: ')
+        self.txt3 = Label(self, text='Height: ')
+        self.width_entry = Entry(self)
+        self.height_entry = Entry(self)
+        self.create_btn = Button(self, text="Create a circle", command=self.create_shape)
+        self.color_btn = Button(self, text="Choose color", command=self.set_color)
+        self.canvas = Canvas(self, bg="white", width=250, height=250)
+
+        self.txt2.place(x=20, y=30)
+        self.width_entry.place(x=20, y=60)
+        self.txt3.place(x=20, y=110)
+        self.height_entry.place(x=20, y=140)
+        self.color_btn.place(x=35, y=240)
+        self.create_btn.place(x=30, y=280)
+        self.canvas.place(x=300, y=40)
+
+    def set_color(self):
+        self.color1 = askcolor()[1]
+        self.txt4 = Label(self,text='Color: ')
+        self.txt4.place(x=20, y=170)
+        self.color_combobox = Combobox(self, values=['red', 'green', 'blue', 'orange', 'yellow', 'violet'])
+        self.color_combobox.place(x=20, y=195)
+        self.color_combobox.insert(0, self.color1)
+
+    def create_shape(self):
+        try:
+            self.canvas.delete("all")  # Удаление предыдущей фигуры
+            width = int(self.width_entry.get())
+            height = int(self.height_entry.get())
+            self.color = self.color_combobox.get()
+            if self.color and width > 0 and height > 0:
+                self.canvas.create_oval(10, 10, width, height, fill=self.color, outline='black')
+        except ValueError:
+            self.error = Label(self,text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+        except TclError:
+            self.error = Label(self,text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+
+
+def rgb1():
+    app = App1()
+    app.mainloop()
+
+class App2(Tk):
+
+    def __init__(self):
+
+        super().__init__()
+        self.resizable(width=False, height=False)
+        self.geometry('600x350')
+        self.title("Circle")
+        self.color = None
+        self.txt2 = Label(self, text='Width: ')
+        self.txt3 = Label(self,text='Height: ')
+        self.width_entry = Entry(self)
+        self.height_entry = Entry(self)
+        self.create_btn = Button(self, text="Create a circle", command=self.create_shape)
+        self.color_btn = Button(self, text="Choose color", command=self.set_color)
+        self.canvas = Canvas(self, bg="white", width=250, height=250)
+
+        self.txt2.place(x=20, y=30)
+        self.width_entry.place(x=20, y=60)
+        self.txt3.place(x=20, y=110)
+        self.height_entry.place(x=20, y=140)
+        self.color_btn.place(x=35, y=240)
+        self.create_btn.place(x=30, y=280)
+        self.canvas.place(x=300, y=40)
+
+    def set_color(self):
+        self.color = askcolor()[1]
+        self.txt4 = Label(self, text='Color: ')
+        self.txt4.place(x=20, y=170)
+        self.color_combobox = Combobox(self, values=['red', 'green', 'blue', 'orange', 'yellow', 'violet'])
+        self.color_combobox.place(x=20, y=195)
+        self.color_combobox.insert(0, self.color)
+
+    def create_shape(self):
+        try:
+            self.canvas.delete("all")  # Удаление предыдущей фигуры
+            width = int(self.width_entry.get())
+            height = int(self.height_entry.get())
+            self.color = self.color_combobox.get()
+            if self.color and width > 0 and height > 0:
+                self.canvas.create_polygon(height, 100, 30, 10, 30, width, fill=self.color, outline="Black")
+        except ValueError:
+            self.error = Label(self, text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+        except TclError:
+            self.error = Label(self,text='Enter your information correctly!')
+            self.error.place(x=330, y=310)
+            self.error.after(3000, lambda: self.error.destroy())
+
+
+def rgb2():
+    app = App2()
+    app.mainloop()
+
+mainroot = Tk()
+mainroot.title('Window')
+mainroot.geometry('600x400')
+btn = Button(height=10, width=20, command = rgb1,padx = 5,pady = 5,text = 'Сircle',bd = 0, fg = '#fff', bg = '#08f',underline = 0 , activebackground = '#fff', activeforeground = '#fff',cursor = 'hand2')
+btn.place(x=10,y=120)
+btn2 = Button(height=10, width=20, command = rgb2,padx = 5,pady = 5,text = 'Triangle',bd = 0, fg = '#fff', bg = '#08f',underline = 0 , activebackground = '#fff', activeforeground = '#fff',cursor = 'hand2')
+btn2.place(x=215,y=120)
+btn3 = Button(height=10, width=20, command = rgb3,padx = 5,pady = 5,text = 'Rectangle',bd = 0, fg = '#fff', bg = '#08f',underline = 0 , activebackground = '#fff', activeforeground = '#fff',cursor = 'hand2')
+btn3.place(x=425,y=120)
+mainroot.mainloop()
