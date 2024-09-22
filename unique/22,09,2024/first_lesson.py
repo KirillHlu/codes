@@ -4,11 +4,7 @@ list1 = [randint(1,80) for i in range(8)]
 print(f'{list1[0]} {list1[-1]}')
 
 #2
-list1 = [1, 2, 3, 4, 3, 2, 1]
-if list(reversed(list1[(len(list1)//2):])) == list1[0:((len(list1)//2)+1)]:
-    print('True')
-else:
-    print('False')
+list1 = [1, 2, 3, 4, 3, 2, 1];print(list(reversed(list1[(len(list1)//2):])) == list1[0:((len(list1)//2)+1)])
 
 #3
 list1 = list(range(5,15))
