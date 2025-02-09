@@ -71,7 +71,7 @@ max_duration = cursor.fetchone()[0]
 print(f"Max duration: {max_duration}")
 
 cursor = connection.cursor()
-cursor.execute("SELECT COUNT(*) FROM trips WHERE sub_type = 'Зарегистрированный'")
+cursor.execute("SELECT COUNT(duration) FROM trips WHERE sub_type = 'Зарегистрированный'")
 max_duration = cursor.fetchone()[0]
 print(f"Count: {max_duration}")
 
