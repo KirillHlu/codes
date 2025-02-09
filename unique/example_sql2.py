@@ -113,7 +113,7 @@ print(f"Most common bike: {most_common_element}")
 
 cursor = connection.cursor()
 cursor.execute("SELECT AVG(duration) FROM trips WHERE CAST(strftime('%Y', start_date) AS INTEGER) - birth_date >= 30")
-avg_duration_somebody = cursor.fetchone()[0]
-print(avg_duration_somebody)
+avg_duration_30_age = cursor.fetchone()[0]
+print(f"Average duration by adults: {avg_duration_30_age}")
 
 connection.close()
