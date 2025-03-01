@@ -81,6 +81,6 @@ LIMIT 1
 '''
 cursor.execute(query_3)
 result_3 = cursor.fetchone()
-print(f"\nMax: {result_3[0]}")
+print(f"\nMax: {result_3[0]} ({result_3[1]}$)")
 
 conn.close()
