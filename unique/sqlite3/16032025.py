@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Customers (
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     City VARCHAR(255) NOT NULL,
-    Country VARCHAR(255) NOT NULL,
+    Country VARCHAR(255) NOT NULL
 );
 """
 
@@ -194,6 +194,21 @@ JOIN Products ON OrderDetails.ProductID = Products.ProductID;
 """
 cursor.execute(query_8)
 result_8 = cursor.fetchall()
-print(result_8)
+for first_name, last_name, product_name, quantity in result_8:
+    print(f"  {first_name} {last_name} ordered {quantity} unit(s) of {product_name}")
+
+print("\n12th query:")
+query_9 = """
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.CustomerID
+HAVING SUM(Orders.TotalAmount) > (SELECT AVG(TotalAmount) FROM Orders);
+"""
+cursor.execute(query_9)
+result_9 = cursor.fetchall()
+for first_name, last_name in result_9:
+    print(f"  {first_name} {last_name}")
+
 
 connection.close()
