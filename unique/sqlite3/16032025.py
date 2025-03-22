@@ -210,5 +210,21 @@ result_9 = cursor.fetchall()
 for first_name, last_name in result_9:
     print(f"  {first_name} {last_name}")
 
+print("\n13th query:")
+query_10 = """
+SELECT ProductName
+FROM Products
+WHERE ProductID = (
+    SELECT ProductID
+    FROM OrderDetails
+    GROUP BY ProductID
+    ORDER BY SUM(Quantity) DESC
+);
+"""
+cursor.execute(query_10)
+result_10 = cursor.fetchall()
+for product_name in result_10:
+    print(f"  The most ordered product: {product_name[0]}")
+
 
 connection.close()
