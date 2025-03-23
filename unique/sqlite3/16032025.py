@@ -272,4 +272,21 @@ print("\nOften buyers:")
 for first_name, last_name in result_1:
     print(f"  {first_name} {last_name}")
 
-print()
+query_2 = """
+SELECT 
+Products.Category, 
+strftime('%Y-%m', Orders.OrderDate) AS YearMonth, 
+SUM(OrderDetails.Quantity * Products.Price) AS TotalSales
+FROM OrderDetails
+JOIN Products ON OrderDetails.ProductID = Products.ProductID
+JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+WHERE Orders.OrderDate >= date('now', '-1 year')
+GROUP BY Products.Category, YearMonth
+ORDER BY Products.Category, YearMonth;
+"""
+
+cursor.execute(query_2)
+result_2 = cursor.fetchall()
+print("")
+
+print(result_2)
