@@ -245,10 +245,10 @@ else:
 
 print("\n15th query:")
 query_15 = """
-SELECT C.FirstName, C.LastName, COALESCE(SUM(O.TotalAmount), 0) AS TotalAmount
-FROM Customers C
-LEFT JOIN Orders O ON C.CustomerID = O.CustomerID
-GROUP BY C.CustomerID;
+SELECT Customers.FirstName, Customers.LastName, SUM(Orders.TotalAmount) AS TotalAmount
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.CustomerID;
 """
 cursor.execute(query_15)
 result_15 = cursor.fetchall()
@@ -256,5 +256,20 @@ result_15 = cursor.fetchall()
 for first_name, last_name, total_amount in result_15:
     print(f"  {first_name} {last_name}: {total_amount} $")
 
+query_1 = """
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+WHERE (
+    SELECT COUNT(DISTINCT strftime('%Y-%m', Orders.OrderDate))
+    FROM Orders
+    WHERE Orders.CustomerID = Customers.CustomerID
+) = 1;
+"""
 
-connection.close()
+cursor.execute(query_1)
+result_1 = cursor.fetchall()
+print("\nOften buyers:")
+for first_name, last_name in result_1:
+    print(f"  {first_name} {last_name}")
+
+print()
