@@ -69,10 +69,10 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
 );
 """
 
-execute_query(connection, create_customers_table)
-execute_query(connection, create_orders_table)
-execute_query(connection, create_products_table)
-execute_query(connection, create_order_details_table)
+# execute_query(connection, create_customers_table)
+# execute_query(connection, create_orders_table)
+# execute_query(connection, create_products_table)
+# execute_query(connection, create_order_details_table)
 
 create_customers = """
 INSERT INTO Customers (FirstName, LastName, City, Country)
@@ -225,6 +225,36 @@ cursor.execute(query_10)
 result_10 = cursor.fetchall()
 for product_name in result_10:
     print(f"  The most ordered product: {product_name[0]}")
+
+print("\n14th query:")
+query_14 = """
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Orders.OrderID IS NULL
+  AND Orders.CustomerID IS NOT NULL;
+"""
+cursor.execute(query_14)
+result_14 = cursor.fetchall()
+
+if result_14:
+    for first_name, last_name in result_14:
+        print(f"  {first_name} {last_name}")
+else:
+    print("  No customers without orders found.")
+
+print("\n15th query:")
+query_15 = """
+SELECT C.FirstName, C.LastName, COALESCE(SUM(O.TotalAmount), 0) AS TotalAmount
+FROM Customers C
+LEFT JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerID;
+"""
+cursor.execute(query_15)
+result_15 = cursor.fetchall()
+
+for first_name, last_name, total_amount in result_15:
+    print(f"  {first_name} {last_name}: {total_amount} $")
 
 
 connection.close()
