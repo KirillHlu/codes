@@ -105,11 +105,11 @@ VALUES
 create_order_details = """
 INSERT INTO OrderDetails (OrderID, ProductID, Quantity)
 VALUES
-    (1, 1, 1),  -- John 1 Laptop
-    (1, 2, 1),  -- John 1 Coffee Maker
-    (2, 2, 1),  -- Bob 1 Coffee Maker
-    (3, 3, 1),  -- Alice 1 Smartphone
-    (4, 4, 1);  -- Michael 1 Toaster
+    (1, 1, 1),
+    (1, 2, 1),
+    (2, 2, 1),
+    (3, 3, 1),
+    (4, 4, 1);
 """
 
 # execute_query(connection, create_customers)
@@ -273,10 +273,7 @@ for first_name, last_name in result_1:
     print(f"  {first_name} {last_name}")
 
 query_2 = """
-SELECT 
-Products.Category, 
-strftime('%Y-%m', Orders.OrderDate) AS YearMonth, 
-SUM(OrderDetails.Quantity * Products.Price) AS TotalSales
+SELECT Products.Category, strftime('%Y-%m', Orders.OrderDate) AS YearMonth, SUM(OrderDetails.Quantity * Products.Price) AS TotalSales
 FROM OrderDetails
 JOIN Products ON OrderDetails.ProductID = Products.ProductID
 JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
@@ -287,6 +284,50 @@ ORDER BY Products.Category, YearMonth;
 
 cursor.execute(query_2)
 result_2 = cursor.fetchall()
-print("")
+print("\nMost profitable categories:")
 
-print(result_2)
+for el in result_2:
+    print(el)
+
+query_4 = """
+SELECT DISTINCT Products.ProductName
+FROM Products
+JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
+JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+WHERE Products.ProductID NOT IN (
+SELECT DISTINCT Products.ProductID
+FROM Products
+JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
+JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+WHERE Customers.Country != 'USA'
+);
+"""
+
+cursor.execute(query_4)
+result_4 = cursor.fetchall()
+print("\nProducts for one country:")
+for el in result_4:
+    print(f"  {el[0]}")
+
+query_5 = """
+WITH CountryAvg AS (
+SELECT Customers.Country,
+CASE WHEN COUNT(Orders.OrderID) = 0 THEN 0 
+ELSE AVG(Orders.TotalAmount) END AS AvgAmount
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.Country)
+SELECT CountryAvg1.Country AS Country1, CountryAvg2.Country AS Country2, ABS(CountryAvg1.AvgAmount - CountryAvg2.AvgAmount) AS AvgDifference
+FROM CountryAvg AS CountryAvg1
+CROSS JOIN CountryAvg AS CountryAvg2
+WHERE CountryAvg1.Country < CountryAvg2.Country
+ORDER BY CountryAvg1.Country, CountryAvg2.Country;
+"""
+
+cursor.execute(query_5)
+result_5 = cursor.fetchall()
+print("\nCountry's compare:")
+for couple in result_5:
+    print(f"  {couple[0]} and {couple[1]}: {couple[2]} $")
