@@ -395,7 +395,6 @@ ORDER BY ProductPurchases.ProductName;
 
 cursor.execute(task_5)
 result_5 = cursor.fetchall()
-print(result_5)
 
 for product, category, first, last, q in result_5:
-    print(f"  {product} ({category}): {first} {last} bought {q} times")
+    print(f"  {product} ({category}): {first} {last} bought {q}")
