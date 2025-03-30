@@ -345,3 +345,19 @@ result_5 = cursor.fetchall()
 print("\nCountry's compare:")
 for couple in result_5:
     print(f"  {couple[0]} and {couple[1]}: {couple[2]} $")
+
+query_3 = """
+SELECT 
+    Category,
+    COUNT(ProductID) AS ProductCount
+FROM 
+    Products
+GROUP BY 
+    Category;
+"""
+
+cursor.execute(query_3)
+result_3 = cursor.fetchall()
+print("\n3rd task:")
+for el in result_3:
+    print(f"  {el[0]}: {el[1]}")
