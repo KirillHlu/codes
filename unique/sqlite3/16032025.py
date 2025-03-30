@@ -289,6 +289,21 @@ print("\nMost profitable categories:")
 for el in result_2:
     print(el)
 
+query_3 = """
+WITH ExpensiveProducts AS (SELECT ProductID FROM Products WHERE Price > (SELECT AVG(Price) FROM Products)),
+QualifiedOrders AS (SELECT Orders.CustomerID, Orders.OrderIDFROM Orders
+JOIN OrderDetails ON OrderDetails.OrderID = OrderDetails.OrderID
+WHERE OrderDetails.ProductID IN (SELECT ProductID FROM ExpensiveProducts))
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+JOIN QualifiedOrders ON Customers.CustomerID = QualifiedOrders.CustomerID
+GROUP BY Customers.CustomerID
+HAVING COUNT(DISTINCT QualifiedOrders.OrderID) >= 2;
+"""
+cursor.execute(query_2)
+result_3 = cursor.fetchall()
+print(result_3)
+
 query_4 = """
 SELECT DISTINCT Products.ProductName
 FROM Products
@@ -301,8 +316,7 @@ FROM Products
 JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
 JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
 JOIN Customers ON Orders.CustomerID = Customers.CustomerID
-WHERE Customers.Country != 'USA'
-);
+WHERE Customers.Country != 'USA');
 """
 
 cursor.execute(query_4)
