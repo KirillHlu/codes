@@ -376,18 +376,26 @@ for el in results_4:
 print("\nTask 5th")
 task_5 = '''
 WITH ProductPurchases AS (
-    SELECT Products.ProductID, Products.ProductName, Products.Category, Products.CustomerID, Customers.FirstName, Customers.LastName,
-        SUM(OrderDetails.Quantity) AS TotalQuantity
+    SELECT Products.ProductID, Products.ProductName, Products.Category, Customers.CustomerID, Customers.FirstName, Customers.LastName,SUM(OrderDetails.Quantity) AS TotalQuantity
     FROM Products
-    JOIN OrderDetails ON Product.ProductID = OrderDetails.ProductID
+    JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
     JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
     JOIN Customers ON Orders.CustomerID = Customers.CustomerID
-    GROUP BY Products.ProductID, Customers.CustomerID), MaxPurchases AS (SELECT ProductID, MAX(TotalQuantity) AS MaxQuantity 
-    FROM ProductPurchases GROUP BY ProductID) 
-    SELECT ProductPurchases.ProductName, ProductPurchases.Category, ProductPurchases.FirstName  ProductPurchases.LastName AS CustomerName
-FROM ProductPurchases
-JOIN MaxPurchases ON ProductPurchases.ProductID = MaxPurchases.ProductID AND ProductPurchases.TotalQuantity = MaxPurchases.MaxQuantity);
+    GROUP BY  Products.ProductID, Customers.CustomerID
+),
+MaxPurchases AS (
+    SELECT ProductID, MAX(TotalQuantity) AS MaxQuantity 
+    FROM ProductPurchases 
+    GROUP BY ProductID
+) 
+SELECT ProductPurchases.ProductName, ProductPurchases.Category, ProductPurchases.FirstName, ProductPurchases.LastName,ProductPurchases.TotalQuantity FROM ProductPurchases
+JOIN MaxPurchases ON ProductPurchases.ProductID = MaxPurchases.ProductID AND ProductPurchases.TotalQuantity = MaxPurchases.MaxQuantity
+ORDER BY ProductPurchases.ProductName;
 '''
 
 cursor.execute(task_5)
 result_5 = cursor.fetchall()
+print(result_5)
+
+for product, category, first, last, q in result_5:
+    print(f"  {product} ({category}): {first} {last} bought {q} times")
