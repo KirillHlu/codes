@@ -361,3 +361,33 @@ result_3 = cursor.fetchall()
 print("\n3rd task:")
 for el in result_3:
     print(f"  {el[0]}: {el[1]}")
+
+print("\nTask 4th")
+task_4 = '''
+SELECT Customers.FirstName, Customers.LastName FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.CustomerID
+HAVING SUM(Orders.TotalAmount) > (SELECT AVG(TotalAmount) FROM Orders);
+'''
+results_4 = cursor.execute(task_4).fetchall()
+for el in results_4:
+    print(f"  {el[0]} {el[1]}")
+
+print("\nTask 5th")
+task_5 = '''
+WITH ProductPurchases AS (
+    SELECT Products.ProductID, Products.ProductName, Products.Category, Products.CustomerID, Customers.FirstName, Customers.LastName,
+        SUM(OrderDetails.Quantity) AS TotalQuantity
+    FROM Products
+    JOIN OrderDetails ON Product.ProductID = OrderDetails.ProductID
+    JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+    JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+    GROUP BY Products.ProductID, Customers.CustomerID), MaxPurchases AS (SELECT ProductID, MAX(TotalQuantity) AS MaxQuantity 
+    FROM ProductPurchases GROUP BY ProductID) 
+    SELECT ProductPurchases.ProductName, ProductPurchases.Category, ProductPurchases.FirstName  ProductPurchases.LastName AS CustomerName
+FROM ProductPurchases
+JOIN MaxPurchases ON ProductPurchases.ProductID = MaxPurchases.ProductID AND ProductPurchases.TotalQuantity = MaxPurchases.MaxQuantity);
+'''
+
+cursor.execute(task_5)
+result_5 = cursor.fetchall()
