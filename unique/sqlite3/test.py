@@ -86,7 +86,6 @@ WHERE car.power = (SELECT MAX(power) FROM car)
 
 cursor.execute(query_2)
 result_2 = cursor.fetchall()
-print("\nCar with max power:")
-print(f"{result_2[0][0]}: {result_2[0][1]}, {result_2[0][2]}, {result_2[0][3]}, {result_2[0][4]}")
+print(f"\nCar with max power: {result_2[0][0]}, {result_2[0][1]}, {result_2[0][2]}, {result_2[0][3]}, {result_2[0][4]}")
 
 conn.close()
