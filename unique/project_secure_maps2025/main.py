@@ -2,6 +2,7 @@ import flet as ft
 from flet_map import Map, MapLatitudeLongitude, MarkerLayer, Marker, TileLayer, MapInteractionConfiguration, \
     MapInteractiveFlag, RichAttribution, TextSourceAttribution
 import requests
+from numpy.ma.core import repeat
 
 
 def main(page: ft.Page):
@@ -10,6 +11,7 @@ def main(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.padding = 20
     page.bgcolor = "#303030"
+    page.scroll = True
 
     marker_layer_ref = ft.Ref[MarkerLayer]()
     map_instance = None
@@ -129,7 +131,7 @@ def main(page: ft.Page):
                         color=ft.colors.WHITE,
                         padding=20,
                         shape=ft.RoundedRectangleBorder(radius=10)
-                    ))
+                    )),
             ],
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER,
@@ -146,6 +148,69 @@ def main(page: ft.Page):
         page.clean()
         page.add(main_page)
 
+    def go_to_news(e):
+        page.clean()
+        news_page = ft.Column(
+            controls=[
+                ft.ElevatedButton(
+                    "Back to Home",
+                    on_click=go_back,
+                    style=ft.ButtonStyle(
+                        bgcolor="#4CCD77",
+                        color=ft.colors.WHITE,
+                        padding=20,
+                        shape=ft.RoundedRectangleBorder(radius=10)
+                    ))
+            ]
+        )
+        page.add(news_page)
+
+        response = requests.get("https://kkhludov.pythonanywhere.com/api/news")
+        news = response.json()
+        for article in news:
+            article_image = article['images'].split()[0]
+            article_date = article["date"]
+            article_short_description = article["short_description"]
+            article_box = ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Image(
+                            src=article_image,
+                            width=700,
+                            height=200,
+                            fit=ft.ImageFit.FILL,  # Изменено на FILL для заполнения всего пространства
+                            border_radius=ft.border_radius.only(top_left=10, top_right=10)
+                        ),
+                        ft.Container(
+                            content=ft.Column(
+                                controls=[
+                                    ft.Text(
+                                        article_short_description,
+                                        size=16,
+                                        weight="bold",
+                                        color=ft.colors.WHITE
+                                    ),
+                                    ft.Text(
+                                        article_date,
+                                        size=12,
+                                        color=ft.colors.WHITE60
+                                    ),
+                                ],
+                                spacing=5
+                            ),
+                            padding=10
+                        )
+                    ],
+                    spacing=0,  # Уменьшено расстояние между элементами
+                    alignment=ft.MainAxisAlignment.START,
+                ),
+                bgcolor="#363636",
+                border_radius=10,
+                width=700,
+                margin=ft.margin.only(bottom=10))
+            page.add(article_box)
+
+
     main_page = ft.Column(
         controls=[
             ft.Text("Welcome to Secure maps",
@@ -161,7 +226,16 @@ def main(page: ft.Page):
                     padding=20,
                     shape=ft.RoundedRectangleBorder(radius=10)
                 )
-            )
+            ),
+            ft.ElevatedButton(
+                "News",
+                on_click=go_to_news,
+                style=ft.ButtonStyle(
+                    bgcolor="#4CCD77",
+                    color=ft.colors.WHITE,
+                    padding=20,
+                    shape=ft.RoundedRectangleBorder(radius=10)
+                ))
         ],
         spacing=40,
         alignment=ft.MainAxisAlignment.CENTER,
